@@ -1,0 +1,27 @@
+// Chapter 2 example: where an example's module dependencies go.
+// This is a template, not a file to build: it is named .txt so that
+// UnrealBuildTool ignores it. Your module already has a <Module>.Build.cs;
+// compare it with this one and add what an example's header says it needs.
+
+using UnrealBuildTool;
+
+// The class name must match the module (folder) name: Source/MyGame/MyGame.Build.cs.
+public class MyGame : ModuleRules
+{
+	public MyGame(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+
+		// Modules whose types appear in this module's public headers.
+		// Every chapter 2 example needs only these three.
+		PublicDependencyModuleNames.AddRange(new string[] {
+			"Core",
+			"CoreUObject",
+			"Engine"
+		});
+
+		// Modules used only inside .cpp files. Later chapters' examples add
+		// names here, for example "Paper2D", "UMG" or "DeveloperSettings".
+		PrivateDependencyModuleNames.AddRange(new string[] { });
+	}
+}

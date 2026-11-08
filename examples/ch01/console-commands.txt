@@ -1,0 +1,38 @@
+# Console commands to try in Play In Editor (chapter 1)
+#
+# Press Play, then open the console with the backtick key (`, left of 1 on a US
+# keyboard). Type a command and press Enter. Commands are not case-sensitive.
+# The Cmd box at the bottom of the editor window runs the same commands without
+# Play. Lines starting with # are comments; do not type them.
+
+stat fps
+# A frame-rate counter appears in the top-right of the viewport.
+# Run it again to hide it. Every "stat" command toggles.
+
+stat unit
+# Shows Frame, Game, Draw, GPU and RHIT times in milliseconds (and a few more
+# rows in some versions). Frame is the total; the largest of the others is
+# the bottleneck. In an empty level all of them are small.
+
+t.MaxFPS 30
+# Caps the frame rate at 30. Watch "stat fps" settle near 30 and Frame in
+# "stat unit" rise to about 33 ms. "t.MaxFPS 0" removes the cap.
+
+r.ScreenPercentage 50
+# Renders the 3D scene at half resolution and scales it up. Edges get blurry.
+# "r.ScreenPercentage 100" restores it. UI is not affected.
+
+HighResShot 2
+# Writes a screenshot at twice the viewport resolution. The Output Log prints
+# the file path; it is under Saved/Screenshots/ in the project folder (in a
+# per-platform subfolder such as WindowsEditor).
+
+ShowFlag.Bounds 1
+# Draws every primitive's bounding box and sphere. "ShowFlag.Bounds 0" hides
+# them. Other show flags: ShowFlag.Collision, ShowFlag.Wireframe.
+
+help
+# Prints help text to the console and the log. For the full list of commands
+# and variables, use DumpConsoleCommands (writes them to the Output Log).
+# Typing the first letters of a command in the console also shows matches;
+# Tab completes the highlighted one.

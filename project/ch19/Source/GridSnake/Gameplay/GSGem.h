@@ -1,0 +1,64 @@
+// GridSnake - course project for "Learn Unreal Engine 5".
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "Gameplay/GSSnakeInteractable.h"
+#include "GSGem.generated.h"
+
+class AGSFlipbookEffect;
+class UBoxComponent;
+class UPaperFlipbookComponent;
+class USoundBase;
+
+/**
+ * A collectible gem. Place three in every level. BP_GSGem picks the flipbook;
+ * the C++ class builds the components, makes the gem bob and reports pickups
+ * to the game mode.
+ */
+UCLASS()
+class AGSGem : public AActor, public IGSSnakeInteractable
+{
+	GENERATED_BODY()
+
+public:
+	AGSGem();
+
+	virtual void Tick(float DeltaSeconds) override;
+
+	// IGSSnakeInteractable
+	virtual void OnSnakeEntered_Implementation(AGSSnake* Snake) override;
+
+protected:
+	virtual void BeginPlay() override;
+
+	/** Root. A trigger that overlaps the snake's head box. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UBoxComponent> Trigger;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UPaperFlipbookComponent> Flipbook;
+
+	/** Spawned where the gem was when it is collected (BP_GSGemPop). */
+	UPROPERTY(EditDefaultsOnly, Category = "Gem")
+	TSubclassOf<AGSFlipbookEffect> PickupEffectClass;
+
+	/** Played when the gem is collected (SW_Eat). */
+	UPROPERTY(EditDefaultsOnly, Category = "Gem")
+	TObjectPtr<USoundBase> PickupSound;
+
+	/** How far the sprite bobs up and down, in world units (1 unit = 1 pixel here). */
+	UPROPERTY(EditAnywhere, Category = "Gem", meta = (ClampMin = "0"))
+	float BobHeight = 1.5f;
+
+	/** Bobs per second, in radians (2*pi = one full bob). */
+	UPROPERTY(EditAnywhere, Category = "Gem", meta = (ClampMin = "0"))
+	float BobSpeed = 4.0f;
+
+private:
+	/** Random start offset so that several gems do not bob in lockstep. */
+	float BobPhase = 0.0f;
+
+	float RunningTime = 0.0f;
+};
